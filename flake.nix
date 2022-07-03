@@ -16,6 +16,7 @@
           inputs.nixpkgs.follows = "nixpkgs";
       };
   };
+
   outputs = { self, nixpkgs, home-manager, balena-cli, ... }@inputs: {
     nixosConfigurations.neptune = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -27,6 +28,7 @@
             useUserPackages = true;
             useGlobalPkgs = true;
             extraSpecialArgs = { inherit inputs; };
+            users.kyle = import ./users/kyle/home.nix;
           };
           nixpkgs.overlays = [
             balena-cli.overlay
