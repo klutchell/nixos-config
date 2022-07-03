@@ -16,16 +16,24 @@
   # changes in each release.
   home.stateVersion = "22.05";
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  # https://nix-community.github.io/home-manager/options.html#opt-home.sessionPath
+  # https://nixos.wiki/wiki/Node.js
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-global/bin"];
+  home.file = {
+    ".npmrc".text = "prefix=/home/kyle/.npm-global";
+  };
 
   # Packages that should be installed to the user profile.
-  home.packages = [
-    pkgs.hadolint
-    pkgs.shellcheck
-    pkgs.thefuck
-    pkgs.yadm
+  home.packages = with pkgs; [
+    hadolint
+    shellcheck
+    thefuck
+    yadm
+    jq
   ];
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
 
   programs.zsh = {
     enable = true;
@@ -61,12 +69,6 @@
       }
     ];
   };
-
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
-  # # this is required until nix 2.4 is released
-  # nix.package = pkgs.nixUnstable;
 
   programs.git = {
     enable = true;
@@ -125,13 +127,6 @@
     enableSshSupport = true;
     enableZshIntegration = true;
     pinentryFlavor = "gtk2";
-  };
-
-  # https://nix-community.github.io/home-manager/options.html#opt-home.sessionPath
-  # https://nixos.wiki/wiki/Node.js
-  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-global/bin"];
-  home.file = {
-    ".npmrc".text = "prefix=/home/kyle/.npm-global";
   };
 
 }
