@@ -209,6 +209,9 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+
+    gc.automatic = true;
+    gc.dates = "03:15";
   };
 
 }
