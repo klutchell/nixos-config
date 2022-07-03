@@ -7,7 +7,7 @@
       nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
 
       home-manager = {
-          url = "github:nix-community/home-manager";
+          url = "github:nix-community/home-manager/release-22.05";
           inputs.nixpkgs.follows = "nixpkgs";
       };
 
@@ -24,13 +24,13 @@
         home-manager.nixosModules.home-manager
         {
           home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              extraSpecialArgs = { inherit inputs; };
+            useUserPackages = true;
+            useGlobalPkgs = true;
+            extraSpecialArgs = { inherit inputs; };
           };
           nixpkgs.overlays = [
-                balena-cli.overlay
-            ];
+            balena-cli.overlay
+          ];
         }
       ];
       specialArgs = { inherit inputs; };
