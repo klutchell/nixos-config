@@ -3,13 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-# { config, lib, pkgs, home-manager, ... }:
-
-# { config, lib, nixpkgs, balena-cli, ... }: {
-#   # do something with home-manager here, for instance:
-#   imports = [ home-manager.nixosModule ];
-#   ...
-# }
 
 {
   imports =
@@ -101,7 +94,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kyle = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user. 
+    extraGroups = [ "wheel" "docker" "networkmanager" ]; # Enable ‘sudo’ for the user. 
      packages = with pkgs; [
        brave
        vscode

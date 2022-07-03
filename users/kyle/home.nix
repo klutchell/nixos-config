@@ -30,6 +30,7 @@
     thefuck
     yadm
     jq
+    yq
   ];
 
   # Let Home Manager install and manage itself.
