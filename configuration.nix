@@ -62,6 +62,9 @@
     pkgs.pantheon.epiphany
   ];
 
+  # get completion for system packages (e.g. systemd).
+  environment.pathsToLink = [ "/share/zsh" ];
+
   # environment.sessionVariables.TERMINAL = [ "elementary-terminal" ];
 
   # services.xserver.desktopManager.gnome.enable = true;
