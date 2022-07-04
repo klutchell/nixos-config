@@ -8,9 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # <home-manager/nixos>
       ./cachix.nix
-      # home-manager.nixosModule
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -64,7 +62,7 @@
     pkgs.pantheon.epiphany
   ];
 
-  environment.sessionVariables.TERMINAL = [ "elementary-terminal" ];
+  # environment.sessionVariables.TERMINAL = [ "elementary-terminal" ];
 
   # services.xserver.desktopManager.gnome.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
@@ -98,10 +96,6 @@
     #  packages = with pkgs; [
     #    brave
     #    vscode
-    #    logseq
-    #    signal-desktop
-    #    etcher
-    #    balena-cli
     # ];
   };
 
@@ -110,15 +104,7 @@
     "electron-12.2.3"
   ];
 
-  # home-manager.users.kyle = {
-  #   /* Here goes your home-manager config, eg home.packages = [ pkgs.foo ]; */
-  # };
-
-  # By default, Home Manager uses a private pkgs instance that is configured via the home-manager.users.<name>.nixpkgs options.
-  # To instead use the global pkgs that is configured via the system level nixpkgs options, set `home-manager.useGlobalPkgs = true;`
-  # This saves an extra Nixpkgs evaluation, adds consistency, and removes the dependency on NIX_PATH, which is otherwise used for importing Nixpkgs.
-  # home-manager.useGlobalPkgs = true;
-
+  # https://github.com/andyrichardson/nix-node
   nix.registry."node".to = {
     type = "github";
     owner = "andyrichardson";
@@ -127,8 +113,6 @@
 
   # https://nixos.wiki/wiki/Command_Shell
   users.defaultUserShell = pkgs.zsh;
-
-  # https://nixos.wiki/wiki/Zsh
 
   # https://nixos.wiki/wiki/Syncthing
   services = {
@@ -149,12 +133,8 @@
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     gnome-console
-    # git
-    # gnupg
     openssl
-    # pinentry-gnome
     pinentry-gtk2
-    # pkgs.gnome3.gnome-tweaks
     (let 
       my-python-packages = python-packages: with python-packages; [ 
         # pandas
