@@ -95,15 +95,14 @@
   users.users.kyle = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" ]; # Enable ‘sudo’ for the user. 
-     packages = with pkgs; [
-       brave
-       vscode
-       pcloud
-       logseq
-       signal-desktop
-       etcher
-       balena-cli
-    ];
+    #  packages = with pkgs; [
+    #    brave
+    #    vscode
+    #    logseq
+    #    signal-desktop
+    #    etcher
+    #    balena-cli
+    # ];
   };
 
   # allow insecure install of balenaEtcher

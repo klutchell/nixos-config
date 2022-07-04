@@ -31,6 +31,13 @@
     yadm
     jq
     yq
+    htop
+    brave
+    vscode
+    logseq
+    signal-desktop
+    etcher
+    balena-cli
   ];
 
   # Let Home Manager install and manage itself.
