@@ -6,6 +6,11 @@
   inputs = {
       nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
 
+      nix.url = "github:nixos/nix";
+
+      flake-compat.url = "github:edolstra/flake-compat";
+      flake-compat.flake = false;
+
       home-manager = {
           url = "github:nix-community/home-manager/release-22.05";
           inputs.nixpkgs.follows = "nixpkgs";
@@ -17,25 +22,58 @@
       };
   };
 
-  outputs = { self, nixpkgs, home-manager, balena-cli, ... }@inputs: {
-    nixosConfigurations.neptune = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat }: let
+    mkSystem = name: system: extraConfig: nixpkgs.lib.nixosSystem (nixpkgs.lib.recursiveUpdate {
+      inherit system;
       modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useUserPackages = true;
-            useGlobalPkgs = true;
-            extraSpecialArgs = { inherit inputs; };
-            users.kyle = import ./users/kyle/home.nix;
-          };
-          nixpkgs.overlays = [
-            balena-cli.overlay
-          ];
-        }
-      ];
-      specialArgs = { inherit inputs; };
-    }; 
+        (./machines + "/${name}/configuration.nix")
+        (./machines + "/${name}/hardware-configuration.nix")
+        self.nixosModules.base
+      ] ++ [ extraConfig ];
+    } {});
+  in {
+    nixosConfigurations = {
+      # Personal Dell XPS 13
+      neptune = mkSystem "neptune" "x86_64-linux" {};
+      # Work System76 Oryx Pro 6
+      # jupiter = mkSystem "jupiter" "x86_64-linux" {};
+    };
+
+    nixosModules = {
+      base = {
+        imports = [
+          home-manager.nixosModules.home-manager
+          ({
+            home-manager = {
+              useUserPackages = true;
+              useGlobalPkgs = true;
+              # extraSpecialArgs = { inherit inputs; };
+              users.kyle = import ./users/kyle/home.nix;
+            };
+          })
+          ({
+            nixpkgs.overlays = [
+              balena-cli.overlay
+              # nix.overlay
+            ];
+          })
+          ({
+            nix.registry.nixpkgs.flake = nixpkgs;
+          })
+          (import ./cachix.nix)
+          ({
+            # https://github.com/andyrichardson/nix-node
+            nix.registry."node".to = {
+              type = "github";
+              owner = "andyrichardson";
+              repo = "nix-node";
+            };
+            nix.binaryCaches = [ "https://cache.nixos.org/" "https://nix-node.cachix.org/" ];
+          })
+        ];
+      };
+    };
+
   };
+
 }

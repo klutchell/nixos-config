@@ -5,12 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./cachix.nix
-    ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -107,12 +101,14 @@
     "electron-12.2.3"
   ];
 
-  # https://github.com/andyrichardson/nix-node
-  nix.registry."node".to = {
-    type = "github";
-    owner = "andyrichardson";
-    repo = "nix-node";
-  };
+  # # https://github.com/andyrichardson/nix-node
+  # nix.registry."node".to = {
+  #   type = "github";
+  #   owner = "andyrichardson";
+  #   repo = "nix-node";
+  # };
+
+  # nix.binaryCaches = [ "https://cache.nixos.org/" "https://nix-node.cachix.org/" ];
 
   # https://nixos.wiki/wiki/Command_Shell
   users.defaultUserShell = pkgs.zsh;
