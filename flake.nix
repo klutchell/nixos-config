@@ -4,7 +4,7 @@
 
   # All inputs for the system
   inputs = {
-      nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
+      nixpkgs.url = "github:nixos/nixpkgs";
 
       nix.url = "github:nixos/nix";
 
@@ -12,7 +12,7 @@
       flake-compat.flake = false;
 
       home-manager = {
-          url = "github:nix-community/home-manager/release-22.05";
+          url = "github:nix-community/home-manager";
           inputs.nixpkgs.follows = "nixpkgs";
       };
 
@@ -36,7 +36,7 @@
       # Personal Dell XPS 13
       neptune = mkSystem "neptune" "x86_64-linux" {};
       # Work System76 Oryx Pro 6
-      # jupiter = mkSystem "jupiter" "x86_64-linux" {};
+      jupiter = mkSystem "jupiter" "x86_64-linux" {};
     };
 
     nixosModules = {
