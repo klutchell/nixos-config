@@ -11,18 +11,17 @@
       flake-compat.url = "github:edolstra/flake-compat";
       flake-compat.flake = false;
 
-      home-manager = {
-          url = "github:nix-community/home-manager";
-          inputs.nixpkgs.follows = "nixpkgs";
-      };
+      sops-nix.url = github:Mic92/sops-nix;
+      sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-      balena-cli = {
-          url = "gitlab:doronbehar/nix-balena-cli";
-          inputs.nixpkgs.follows = "nixpkgs";
-      };
+      home-manager.url = "github:nix-community/home-manager";
+      home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+      balena-cli.url = "gitlab:doronbehar/nix-balena-cli";
+      balena-cli.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat }@inputs: let
+  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat, sops-nix }@inputs: let
     mkSystem = name: system: extraConfig: nixpkgs.lib.nixosSystem (nixpkgs.lib.recursiveUpdate {
       inherit system;
       modules = [
@@ -43,6 +42,7 @@
       base = {
         imports = [
           home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
           ({
             home-manager = {
               useUserPackages = true;
