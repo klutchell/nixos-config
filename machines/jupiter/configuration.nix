@@ -10,6 +10,7 @@ with lib;
     ../../profiles/pantheon.nix
     ../../profiles/syncthing.nix
     ../../profiles/avahi.nix
+    ../../users
   ];
 
   networking.hostName = "jupiter"; # Define your hostname.
@@ -56,16 +57,6 @@ with lib;
   hardware.pulseaudio.enable = true;
 
   virtualisation.docker.enable = true;
-
-  users.users.kyle = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" ];
-    initialPassword = "changeme";
-    shell = pkgs.zsh;
-  };
-
-  # https://nixos.wiki/wiki/Command_Shell
-  users.defaultUserShell = pkgs.zsh;
 
   # allow insecure install of balenaEtcher
   nixpkgs.config.permittedInsecurePackages = [
