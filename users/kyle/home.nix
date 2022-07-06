@@ -29,6 +29,7 @@
   home.sessionVariables = {
     EDITOR = "nano";
     TERMINAL = "elementary-terminal";
+    TERM = "xterm-256color";
   };
 
   home.file.".npmrc" = {
@@ -50,16 +51,25 @@
     signal-desktop
     etcher
     balena-cli
-    awscli
+    awscli2
     saml2aws
     aws-google-auth
-    kubectl
     k9s
+    kubectl
+    binutils
+    gnutls
+    gnumake
+    gcc
+    xdg-utils
+    unzip
+    wget
+    curl
+    bind
+    mkpasswd
     fluxctl # TODO: pin to an older release
     spotify
     zoom-us
     home-manager
-    wget
     openssl
     pinentry-gtk2
     (let 
@@ -71,11 +81,6 @@
       python-with-my-packages = python3.withPackages my-python-packages;
     in
     python-with-my-packages)
-    gnumake
-    gcc
-    binutils
-    xdg-utils
-    unzip
   ];
 
   # This option should only be used to manage simple aliases that are compatible
