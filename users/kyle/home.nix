@@ -20,6 +20,12 @@
   # https://nixos.wiki/wiki/Node.js
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-global/bin"];
 
+  # Determines whether to check for release version mismatch between Home Manager
+  # and Nixpkgs. Using mismatched versions is likely to cause errors and unexpected
+  # behavior. It is therefore highly recommended to use a release of Home Manager
+  # than corresponds with your chosen release of Nixpkgs.
+  home.enableNixpkgsReleaseCheck = true;
+
   home.sessionVariables = {
     EDITOR = "nano";
     TERMINAL = "elementary-terminal";
@@ -52,6 +58,22 @@
     fluxctl # TODO: pin to an older release
     spotify
     zoom-us
+    home-manager
+    wget
+    openssl
+    pinentry-gtk2
+    (let 
+      my-python-packages = python-packages: with python-packages; [ 
+        # pandas
+        # requests
+        #other python packages you want
+      ];
+      python-with-my-packages = python3.withPackages my-python-packages;
+    in
+    python-with-my-packages)
+    gnumake
+    gcc
+    binutils
   ];
 
   # This option should only be used to manage simple aliases that are compatible
@@ -60,7 +82,7 @@
   home.shellAliases = {
     ll = "ls -l";
     update = "sudo nixos-rebuild switch";
-    ".." = "cd ..";
+    # ".." = "cd ..";
   };
 
   # Let Home Manager install and manage itself.
@@ -72,6 +94,7 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     enableSyntaxHighlighting = true;
+    autocd = true;
 
     initExtra = ''
 
@@ -164,5 +187,11 @@
     enableZshIntegration = true;
     pinentryFlavor = "gtk2";
   };
+
+  # https://github.com/nix-community/home-manager/blob/master/modules/services/syncthing.nix
+  # doesn't work ???
+  # services.syncthing = {
+  #   enable = true;
+  # };
 
 }

@@ -22,7 +22,7 @@
       };
   };
 
-  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat }: let
+  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat }@inputs: let
     mkSystem = name: system: extraConfig: nixpkgs.lib.nixosSystem (nixpkgs.lib.recursiveUpdate {
       inherit system;
       modules = [
@@ -47,7 +47,7 @@
             home-manager = {
               useUserPackages = true;
               useGlobalPkgs = true;
-              # extraSpecialArgs = { inherit inputs; };
+              extraSpecialArgs = { inherit inputs; };
               users.kyle = import ./users/kyle/home.nix;
             };
           })

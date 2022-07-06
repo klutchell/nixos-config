@@ -107,25 +107,10 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    gnome-console
-    openssl
-    pinentry-gtk2
-    (let 
-      my-python-packages = python-packages: with python-packages; [ 
-        # pandas
-        # requests
-        #other python packages you want
-      ];
-      python-with-my-packages = python3.withPackages my-python-packages;
-    in
-    python-with-my-packages)
-    gnumake
-    gcc
-    binutils
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #   wget
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
