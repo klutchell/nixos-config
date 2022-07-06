@@ -74,6 +74,7 @@
     gnumake
     gcc
     binutils
+    xdg-utils
   ];
 
   # This option should only be used to manage simple aliases that are compatible
@@ -87,6 +88,9 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # Enable bash as some applications expect it
+  programs.bash.enable = true;
 
   programs.zsh = {
     enable = true;
