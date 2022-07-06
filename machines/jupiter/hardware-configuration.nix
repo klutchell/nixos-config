@@ -58,4 +58,6 @@
   };
 
   hardware.opengl.enable = true;
+
+  hardware.system76.enableAll = true;
 }
