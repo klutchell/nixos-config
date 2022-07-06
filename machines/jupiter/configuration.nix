@@ -5,17 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/nvme0n1p2";
-      preLVM = true;
-    };
-  };
-
   networking.hostName = "jupiter"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -39,17 +28,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # NVIDIA drivers are unfree.
   nixpkgs.config.allowUnfree = true;
-
-  # # For laptops with dual graphics
-  # hardware.nvidia.modesetting.enable = true;
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  
-  hardware.opengl.enable = true;
-
-  # # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   services.xserver.desktopManager.pantheon.enable = true;
   environment.pantheon.excludePackages = [

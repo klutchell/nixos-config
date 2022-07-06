@@ -5,17 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/nvme0n1p2";
-      preLVM = true;
-    };
-  };
-
   networking.hostName = "neptune"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -39,6 +28,8 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+
   services.xserver.desktopManager.pantheon.enable = true;
   environment.pantheon.excludePackages = [
     # pkgs.pantheon.elementary-calculator
@@ -59,12 +50,6 @@
   # get completion for system packages (e.g. systemd).
   environment.pathsToLink = [ "/share/zsh" ];
 
-  # environment.sessionVariables.TERMINAL = [ "elementary-terminal" ];
-
-  # services.xserver.desktopManager.gnome.enable = true;
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.gnome.core-utilities.enable = false;
-
   # Configure keymap in X11
   services.xserver.layout = "us";
   #services.xserver.xkbOptions = {
@@ -81,8 +66,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
 
   virtualisation.docker.enable = true;
 
@@ -117,6 +100,11 @@
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
 
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
