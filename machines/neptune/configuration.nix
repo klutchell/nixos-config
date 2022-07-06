@@ -7,10 +7,11 @@
 with lib;
 {
   imports = [
+    ../../users
     ../../profiles/pantheon.nix
     ../../profiles/syncthing.nix
     ../../profiles/avahi.nix
-    ../../users
+    ../../profiles/virtualisation.nix
   ];
 
   networking.hostName = "neptune"; # Define your hostname.
@@ -55,8 +56,6 @@ with lib;
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  virtualisation.docker.enable = true;
 
   # allow insecure install of balenaEtcher
   nixpkgs.config.permittedInsecurePackages = [
