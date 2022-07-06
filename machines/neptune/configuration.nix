@@ -101,15 +101,6 @@
     "electron-12.2.3"
   ];
 
-  # # https://github.com/andyrichardson/nix-node
-  # nix.registry."node".to = {
-  #   type = "github";
-  #   owner = "andyrichardson";
-  #   repo = "nix-node";
-  # };
-
-  # nix.binaryCaches = [ "https://cache.nixos.org/" "https://nix-node.cachix.org/" ];
-
   # https://nixos.wiki/wiki/Command_Shell
   users.defaultUserShell = pkgs.zsh;
 
