@@ -35,17 +35,18 @@ with lib;
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  # get completion for system packages (e.g. systemd).
-  environment.pathsToLink = [ "/share/zsh" ];
-
   # Configure keymap in X11
   services.xserver.layout = "us";
   #services.xserver.xkbOptions = {
   #  "eurosign:e";
   #  "caps:escape" # map caps to escape.
   #};
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.xserver.libinput.enable = true;
+
+  # get completion for system packages (e.g. systemd).
+  environment.pathsToLink = [ "/share/zsh" ];
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -54,47 +55,28 @@ with lib;
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-
   virtualisation.docker.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kyle = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" ]; # Enable ‘sudo’ for the user. 
-    #  packages = with pkgs; [
-    #    brave
-    #    vscode
-    # ];
+    extraGroups = [ "wheel" "docker" "networkmanager" ];
+    initialPassword = "changeme";
+    shell = pkgs.zsh;
   };
+
+  # https://nixos.wiki/wiki/Command_Shell
+  users.defaultUserShell = pkgs.zsh;
 
   # allow insecure install of balenaEtcher
   nixpkgs.config.permittedInsecurePackages = [
     "electron-12.2.3"
   ];
 
-  # https://nixos.wiki/wiki/Command_Shell
-  users.defaultUserShell = pkgs.zsh;
+  nixpkgs.config.allowUnfree = true;
 
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/tailscale/default.nix
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  #   pinentryFlavor = "gnome3";
-  # };
 
   # List services that you want to enable:
 
@@ -106,11 +88,6 @@ with lib;
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true; # does not work with flakes
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

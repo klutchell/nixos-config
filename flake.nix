@@ -48,7 +48,7 @@
               useUserPackages = true;
               useGlobalPkgs = true;
               extraSpecialArgs = { inherit inputs; };
-              users.kyle = import ./users/kyle/home.nix;
+              users.kyle = import ./home;
             };
           })
           ({
