@@ -75,6 +75,7 @@
     gcc
     binutils
     xdg-utils
+    unzip
   ];
 
   # This option should only be used to manage simple aliases that are compatible
