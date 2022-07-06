@@ -2,9 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+with lib;
 {
+  imports = [
+    ../../profiles/pantheon.nix
+    ../../profiles/syncthing.nix
+    ../../profiles/avahi.nix
+  ];
+
   networking.hostName = "jupiter"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -29,23 +36,6 @@
   services.xserver.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
-  services.xserver.desktopManager.pantheon.enable = true;
-  environment.pantheon.excludePackages = [
-    # pkgs.pantheon.elementary-calculator
-    pkgs.pantheon.elementary-calendar
-    # pkgs.pantheon.elementary-camera
-    pkgs.pantheon.elementary-code
-    # pkgs.pantheon.elementary-files
-    pkgs.pantheon.elementary-mail
-    pkgs.pantheon.elementary-music
-    pkgs.pantheon.elementary-photos
-    # pkgs.pantheon.elementary-screenshot
-    pkgs.pantheon.elementary-tasks
-    # pkgs.pantheon.elementary-terminal
-    pkgs.pantheon.elementary-videos
-    pkgs.pantheon.epiphany
-  ];
 
   # get completion for system packages (e.g. systemd).
   environment.pathsToLink = [ "/share/zsh" ];
@@ -87,29 +77,8 @@
   # https://nixos.wiki/wiki/Command_Shell
   users.defaultUserShell = pkgs.zsh;
 
-  # https://nixos.wiki/wiki/Syncthing
-  services = {
-    syncthing = {
-        enable = true;
-        user = "kyle";
-        dataDir = "/home/kyle/Syncthing";    # Default folder for new synced folders
-        configDir = "/home/kyle/.config/syncthing";   # Folder for Syncthing's settings and keys
-    };
-  };
-
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
-
-  services.avahi.enable = true;
-  services.avahi.nssmdns = false; # Use my settings from below
-  # settings from avahi-daemon.nix where mdns_minimal is replaced with mdns4
-  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/nsswitch.nix
-  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/networking/avahi-daemon.nix
-  system.nssModules = with pkgs.lib; optional (!config.services.avahi.nssmdns) pkgs.nssmdns;
-  system.nssDatabases.hosts = with pkgs.lib; optionals (!config.services.avahi.nssmdns) (mkMerge [
-    (mkBefore [ "mdns4 mdns [NOTFOUND=return]" ]) # before resolve
-    (mkAfter [ "mdns4" ]) # after dns
-  ]);
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
