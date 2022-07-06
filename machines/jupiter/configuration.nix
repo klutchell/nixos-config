@@ -125,6 +125,11 @@
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
 
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
