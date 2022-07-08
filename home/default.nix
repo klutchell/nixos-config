@@ -66,21 +66,11 @@
     curl
     bind
     mkpasswd
-    fluxctl # TODO: pin to an older release
     spotify
     zoom-us
     home-manager
     openssl
     pinentry-gtk2
-    (let 
-      my-python-packages = python-packages: with python-packages; [ 
-        # pandas
-        # requests
-        #other python packages you want
-      ];
-      python-with-my-packages = python3.withPackages my-python-packages;
-    in
-    python-with-my-packages)
   ];
 
   # This option should only be used to manage simple aliases that are compatible
