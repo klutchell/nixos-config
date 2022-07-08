@@ -60,16 +60,7 @@
           ({
             nix.registry.nixpkgs.flake = nixpkgs;
           })
-          (import ./cachix.nix)
-          ({
-            # https://github.com/andyrichardson/nix-node
-            nix.registry."node".to = {
-              type = "github";
-              owner = "andyrichardson";
-              repo = "nix-node";
-            };
-            nix.settings.substituters = [ "https://cache.nixos.org/" "https://nix-node.cachix.org/" ];
-          })
+          # (import ./cachix.nix)
         ];
       };
     };
