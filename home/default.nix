@@ -43,7 +43,7 @@
     thefuck
     yadm
     jq
-    yq
+    yq-go
     htop
     brave
     vscode
