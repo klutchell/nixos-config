@@ -11,7 +11,7 @@ with lib;
     ../../profiles/pantheon.nix
     ../../profiles/syncthing.nix
     ../../profiles/avahi.nix
-    ../../profiles/virtualisation.nix
+    ../../profiles/docker.nix
   ];
 
   networking.hostName = "neptune"; # Define your hostname.
