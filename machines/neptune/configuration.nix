@@ -12,6 +12,7 @@ with lib;
     ../../profiles/syncthing.nix
     ../../profiles/avahi.nix
     ../../profiles/docker.nix
+    ../../profiles/seafile-client.nix
   ];
 
   networking.hostName = "neptune"; # Define your hostname.

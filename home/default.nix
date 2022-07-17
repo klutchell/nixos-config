@@ -72,7 +72,6 @@
     openssl
     pinentry-gtk2
     docker-compose
-    seafile-client
   ];
 
   # This option should only be used to manage simple aliases that are compatible
