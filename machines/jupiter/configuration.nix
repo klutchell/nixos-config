@@ -62,6 +62,8 @@ with lib;
 
   # nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "nvidia-settings"
+    "nvidia-x11"
     "spotify"
     "spotify-unwrapped"
     "vscode"
