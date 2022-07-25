@@ -19,4 +19,8 @@ with lib;
     pkgs.pantheon.elementary-videos
     pkgs.pantheon.epiphany
   ];
+
+  environment.systemPackages = with pkgs; [
+    pantheon.pantheon-agent-polkit
+  ];
 }

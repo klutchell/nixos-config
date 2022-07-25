@@ -49,7 +49,6 @@
     vscode
     logseq
     signal-desktop
-    etcher
     balena-cli
     awscli2
     saml2aws

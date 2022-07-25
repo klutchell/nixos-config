@@ -61,7 +61,14 @@
 
   hardware.nvidia.modesetting.enable = true;
 
-  hardware.opengl.enable = true;
+  hardware.opengl.enable = false;
 
   hardware.system76.enableAll = true;
+
+  hardware.nvidia.powerManagement.enable = true;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "nvidia-settings"
+    "nvidia-x11"
+  ];
 }

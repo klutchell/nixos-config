@@ -13,6 +13,8 @@ with lib;
     ../../profiles/avahi.nix
     ../../profiles/docker.nix
     ../../profiles/libvirtd.nix
+    ../../profiles/seafile-client.nix
+    ../../profiles/etcher.nix
   ];
 
   networking.hostName = "jupiter"; # Define your hostname.
@@ -58,12 +60,13 @@ with lib;
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # allow insecure install of balenaEtcher
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-12.2.3"
+  # nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "spotify"
+    "spotify-unwrapped"
+    "vscode"
+    "zoom"
   ];
-
-  nixpkgs.config.allowUnfree = true;
 
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/tailscale/default.nix
   services.tailscale.enable = true;
@@ -71,12 +74,6 @@ with lib;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
