@@ -61,8 +61,6 @@
 
   hardware.nvidia.modesetting.enable = true;
 
-  hardware.opengl.enable = false;
-
   hardware.system76.enableAll = true;
 
   hardware.nvidia.powerManagement.enable = true;
