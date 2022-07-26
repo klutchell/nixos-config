@@ -71,6 +71,7 @@
     openssl
     pinentry-gtk2
     docker-compose
+    neofetch
   ];
 
   # This option should only be used to manage simple aliases that are compatible
