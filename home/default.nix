@@ -72,6 +72,7 @@
     pinentry-gtk2
     docker-compose
     neofetch
+    vlc
   ];
 
   # This option should only be used to manage simple aliases that are compatible
