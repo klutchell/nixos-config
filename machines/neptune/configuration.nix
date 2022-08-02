@@ -14,6 +14,7 @@ with lib;
     ../../profiles/docker.nix
     ../../profiles/seafile-client.nix
     ../../profiles/etcher.nix
+    ../../profiles/pipewire.nix
   ];
 
   networking.hostName = "neptune"; # Define your hostname.
@@ -36,10 +37,6 @@ with lib;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
   # nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
