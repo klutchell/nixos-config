@@ -150,6 +150,7 @@
       };
       push = {
         default = "simple";
+        autoSetupRemote = true;
       };
       pull = {
         ff = "only";
