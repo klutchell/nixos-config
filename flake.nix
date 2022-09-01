@@ -135,7 +135,6 @@
               workstation = [
                 core.nixos
                 develop.common
-                develop.balena-cli
                 develop.docker
                 develop.zsh
                 graphical.brave
@@ -155,7 +154,7 @@
                 users.kyle
                 users.root
               ];
-              # mobileWS = workstation ++ [ laptop ];
+              balena-ws = workstation ++ [ balena ];
             };
           };
         };
@@ -195,7 +194,8 @@
             profiles = digga.lib.rakeLeaves ./users/profiles;
             suites = with profiles; rec {
               base = [ direnv common ];
-              workstaton = [ direnv common develop ];
+              workstation = [ direnv common develop ];
+              balena-ws = workstation ++ [ balena ];
             };
           };
           users = {
@@ -216,7 +216,7 @@
             # first steps in customizing the template.
             nixos = { suites, ... }: { imports = suites.base; };
             # darwin = { suites, ... }: { imports = suites.base; };
-            kyle = { suites, ... }: { imports = suites.workstaton; };
+            kyle = { suites, ... }: { imports = suites.balena-ws; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 

@@ -22,7 +22,6 @@
 
     imports = [
       hmUsers.kyle
-      ./zsh.nix
     ];
 
     programs.git = {

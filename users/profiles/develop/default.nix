@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 {
   programs.git = {
     enable = true;
@@ -52,27 +53,22 @@
     settings.git_protocol = "ssh";
   };
 
-  # programs.gpg = {
-  #   enable = true;
-  # };
+  programs.zsh = {
+    enable = true;
 
-  # services.gpg-agent = {
-  #   enable = true;
-  #   enableSshSupport = true;
-  #   enableZshIntegration = true;
-  #   pinentryFlavor = "gtk2";
-  # };
+    enableCompletion = true;
+    enableAutosuggestions = true;
+    enableSyntaxHighlighting = true;
+    autocd = true;
 
-  # home.packages = with pkgs; [
-  #   pinentry-gtk2
-  # ];
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "thefuck" ];
+      theme = "robbyrussell";
+    };
+  };
 
-  # # https://nix-community.github.io/home-manager/options.html#opt-home.sessionPath
-  # # https://nixos.wiki/wiki/Node.js
-  # home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-global/bin"];
-  
-  # home.file.".npmrc" = {
-  #   text = "prefix=${home.homeDirectory}/.npm-global";
-  # };
+  home.packages = with pkgs; [
 
+  ];
 }
