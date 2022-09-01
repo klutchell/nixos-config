@@ -13,7 +13,8 @@
 
   # https://nixos.org/manual/nixos/stable/index.html#sec-user-management
   users.users.kyle = {
-    passwordFile = config.age.secrets.passwordfile-kyle.path;
+    # passwordFile = config.age.secrets.passwordfile-kyle.path;
+    hashedPassword = "$6$EYmGWgdTVpt.RB2o$/PCpdAUq2Cb9gX/5Jannu2Qhp1WUK.NRflqvWy9jtgJd4dJCp9sbyGUJjywrsyr/S4MlQQFz/kUYY/th3i420.";
     description = "kyle";
     isNormalUser = true;
     extraGroups = [
