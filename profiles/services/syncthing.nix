@@ -2,15 +2,11 @@
 with lib;
 {
   # https://nixos.wiki/wiki/Syncthing
+  # https://search.nixos.org/options?channel=22.05&from=0&size=50&sort=relevance&type=packages&query=syncthing
   services.syncthing = {
     enable = true;
-    user = "kyle";
-    dataDir = "/home/kyle/.syncthing";    # Default folder for new synced folders
-    configDir = "/home/kyle/.config/syncthing";   # Folder for Syncthing's settings and keys
+    openDefaultPorts = true;
   };
 
-  # Syncthing ports
-  # https://docs.syncthing.net/users/firewall.html
-  networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  users.users.syncthing.extraGroups = [ "users" ];
 }

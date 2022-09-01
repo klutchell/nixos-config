@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, self, ... }:
 
 let
   ekslogin = pkgs.writeShellScriptBin "ekslogin" ''

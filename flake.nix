@@ -149,7 +149,7 @@
                 services.avahi
                 services.pipewire
                 services.openssh
-                services.syncthing
+                # services.syncthing
                 services.tailscale
                 users.kyle
                 users.root

@@ -1,4 +1,4 @@
-{ hmUsers, ... }:
+{ hmUsers, self, ... }:
 {
   # https://nixos.org/manual/nixos/stable/index.html#sec-user-management
   users.users.kyle = {
@@ -9,6 +9,7 @@
       "wheel"
       "docker"
       "networkmanager"
+      "syncthing"
     ];
   };
 
@@ -59,5 +60,22 @@
         };
       };
     };
+  };
+
+  # https://github.com/ryantm/agenix/blob/main/modules/age.nix
+  age.secrets.balena-aws-config = {
+    file = "${self}/secrets/balena-aws-config.age";
+    path = "/home/kyle/.aws/config";
+    owner = "kyle";
+  };
+
+  # https://nixos.wiki/wiki/Syncthing
+  # https://search.nixos.org/options?channel=22.05&from=0&size=50&sort=relevance&type=packages&query=syncthing
+  services.syncthing = {
+    enable = true;
+    user = "kyle";
+    dataDir = "/home/kyle/Syncthing"; # Default folder for new synced folders
+    configDir = "/home/kyle/.config/syncthing"; # Folder for Syncthing's settings and keys
+    openDefaultPorts = true;
   };
 }
