@@ -52,20 +52,20 @@
     settings.git_protocol = "ssh";
   };
 
-  programs.gpg = {
-    enable = true;
-  };
+  # programs.gpg = {
+  #   enable = true;
+  # };
 
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    enableZshIntegration = true;
-    pinentryFlavor = "gtk2";
-  };
+  # services.gpg-agent = {
+  #   enable = true;
+  #   enableSshSupport = true;
+  #   enableZshIntegration = true;
+  #   pinentryFlavor = "gtk2";
+  # };
 
-  home.packages = with pkgs; [
-    pinentry-gtk2
-  ];
+  # home.packages = with pkgs; [
+  #   pinentry-gtk2
+  # ];
 
   # # https://nix-community.github.io/home-manager/options.html#opt-home.sessionPath
   # # https://nixos.wiki/wiki/Node.js

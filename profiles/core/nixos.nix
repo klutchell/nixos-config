@@ -17,6 +17,7 @@
       iputils
       usbutils
       utillinux
+      neofetch
     ];
 
     shellAliases =
@@ -24,6 +25,8 @@
       {
         # nix
         nrb = ifSudo "sudo nixos-rebuild";
+        nrbs = ifSudo "sudo nixos-rebuild switch";
+        update = ifSudo "sudo nixos-rebuild switch";
 
         # fix nixos-option for flake compat
         nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
@@ -71,4 +74,10 @@
 
   # Service that makes Out of Memory Killer more effective
   services.earlyoom.enable = true;
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  # https://search.nixos.org/options?channel=22.05&from=0&size=50&sort=relevance&type=packages&query=programs.gnupg
+  programs.gnupg.agent.enable = true;
 }

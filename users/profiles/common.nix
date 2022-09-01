@@ -28,4 +28,8 @@
 
   # Enable bash as some applications expect it
   programs.bash.enable = true;
+
+  home.packages = [
+    pkgs.home-manager
+  ];
 }

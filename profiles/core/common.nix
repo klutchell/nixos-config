@@ -32,6 +32,9 @@ in
       skim
       tealdeer
       whois
+      mkpasswd
+      nixpkgs-fmt
+      htop
     ];
 
     # Starship is a fast and featureful shell prompt
@@ -55,6 +58,9 @@ in
         "..." = "cd ../..";
         "...." = "cd ../../..";
         "....." = "cd ../../../..";
+
+        # ls
+        ll = "ls -l";
 
         # git
         g = "git";

@@ -135,10 +135,18 @@
               workstation = [
                 core.nixos
                 develop.common
+                develop.balena-cli
                 develop.docker
                 develop.zsh
-                graphical.pantheon
+                graphical.brave
                 graphical.etcher
+                graphical.logseq
+                graphical.pantheon
+                graphical.signal-desktop
+                graphical.spotify
+                graphical.vlc
+                graphical.vscode
+                graphical.zoom-us
                 services.avahi
                 services.pipewire
                 services.openssh

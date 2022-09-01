@@ -25,9 +25,6 @@
       ./zsh.nix
     ];
 
-    # home.username = "kyle";
-    # home.homeDirectory = "/home/kyle";
-
     programs.git = {
 
       userName = "Kyle Harding";
