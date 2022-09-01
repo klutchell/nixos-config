@@ -1,8 +1,19 @@
-{ hmUsers, self, ... }:
+{ hmUsers, self, config, ... }:
 {
+  age.secrets.passwordfile-kyle = {
+    file = "${self}/secrets/passwordfile-kyle.age";
+  };
+
+  # https://github.com/ryantm/agenix/blob/main/modules/age.nix
+  age.secrets.balena-aws-config = {
+    file = "${self}/secrets/balena-aws-config.age";
+    path = "/home/kyle/.aws/config";
+    owner = "kyle";
+  };
+
   # https://nixos.org/manual/nixos/stable/index.html#sec-user-management
   users.users.kyle = {
-    hashedPassword = "$6$EYmGWgdTVpt.RB2o$/PCpdAUq2Cb9gX/5Jannu2Qhp1WUK.NRflqvWy9jtgJd4dJCp9sbyGUJjywrsyr/S4MlQQFz/kUYY/th3i420.";
+    passwordFile = config.age.secrets.passwordfile-kyle.path;
     description = "kyle";
     isNormalUser = true;
     extraGroups = [
@@ -60,13 +71,6 @@
         };
       };
     };
-  };
-
-  # https://github.com/ryantm/agenix/blob/main/modules/age.nix
-  age.secrets.balena-aws-config = {
-    file = "${self}/secrets/balena-aws-config.age";
-    path = "/home/kyle/.aws/config";
-    owner = "kyle";
   };
 
   # https://nixos.wiki/wiki/Syncthing

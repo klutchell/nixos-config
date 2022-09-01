@@ -13,5 +13,7 @@ in
   "secret1.age".publicKeys = [ user1 system1 ];
   "secret2.age".publicKeys = users ++ systems;
 
+  "passwordfile-kyle.age".publicKeys = users ++ systems;
+  "passwordfile-root.age".publicKeys = users ++ systems;
   "balena-aws-config.age".publicKeys = users ++ systems;
 }
