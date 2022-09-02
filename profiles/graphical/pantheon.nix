@@ -21,8 +21,8 @@
     pkgs.pantheon.elementary-code
     # pkgs.pantheon.elementary-files
     pkgs.pantheon.elementary-mail
-    pkgs.pantheon.elementary-music
-    pkgs.pantheon.elementary-photos
+    # pkgs.pantheon.elementary-music
+    # pkgs.pantheon.elementary-photos
     # pkgs.pantheon.elementary-screenshot
     pkgs.pantheon.elementary-tasks
     # pkgs.pantheon.elementary-terminal
