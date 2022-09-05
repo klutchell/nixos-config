@@ -147,6 +147,7 @@
                 graphical.vscode
                 graphical.zoom-us
                 services.avahi
+                services.netdata
                 services.pipewire
                 services.openssh
                 # services.syncthing
