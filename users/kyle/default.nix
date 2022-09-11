@@ -52,7 +52,7 @@
           ui = true;
         };
         push = {
-          default = "simple";
+          default = "current";
           autoSetupRemote = true;
         };
         pull = {
