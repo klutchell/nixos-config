@@ -1,70 +1,237 @@
-# https://nixos.wiki/wiki/Flakes
 {
-  description = "NixOS configuration";
+  description = "A highly structured configuration database.";
 
-  # All inputs for the system
-  inputs = {
-      nixpkgs.url = "github:nixos/nixpkgs";
+  nixConfig.extra-experimental-features = "nix-command flakes";
+  nixConfig.extra-substituters = "https://nrdxp.cachix.org https://nix-community.cachix.org";
+  nixConfig.extra-trusted-public-keys = "nrdxp.cachix.org-1:Fc5PSqY2Jm1TrWfm88l6cvGWwz3s93c6IOifQWnhNW4= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
 
-      nix.url = "github:nixos/nix";
+  inputs =
+    {
+      # Track channels with commits tested and built by hydra
+      nixos.url = "github:nixos/nixpkgs/nixos-22.05";
+      latest.url = "github:nixos/nixpkgs/nixos-unstable";
+      # For darwin hosts: it can be helpful to track this darwin-specific stable
+      # channel equivalent to the `nixos-*` channels for NixOS. For one, these
+      # channels are more likely to provide cached binaries for darwin systems.
+      # But, perhaps even more usefully, it provides a place for adding
+      # darwin-specific overlays and packages which could otherwise cause build
+      # failures on Linux systems.
+      nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.05-darwin";
 
-      flake-compat.url = "github:edolstra/flake-compat";
-      flake-compat.flake = false;
+      digga.url = "github:divnix/digga";
+      digga.inputs.nixpkgs.follows = "nixos";
+      digga.inputs.nixlib.follows = "nixos";
+      digga.inputs.home-manager.follows = "home";
+      digga.inputs.deploy.follows = "deploy";
 
-      sops-nix.url = github:Mic92/sops-nix;
-      sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+      home.url = "github:nix-community/home-manager/release-22.05";
+      home.inputs.nixpkgs.follows = "nixos";
 
-      home-manager.url = "github:nix-community/home-manager";
-      home-manager.inputs.nixpkgs.follows = "nixpkgs";
+      darwin.url = "github:LnL7/nix-darwin";
+      darwin.inputs.nixpkgs.follows = "nixpkgs-darwin-stable";
+
+      deploy.url = "github:serokell/deploy-rs";
+      deploy.inputs.nixpkgs.follows = "nixos";
+
+      agenix.url = "github:ryantm/agenix";
+      agenix.inputs.nixpkgs.follows = "nixos";
+
+      nvfetcher.url = "github:berberman/nvfetcher";
+      nvfetcher.inputs.nixpkgs.follows = "nixos";
+
+      naersk.url = "github:nmattia/naersk";
+      naersk.inputs.nixpkgs.follows = "nixos";
+
+      nixos-hardware.url = "github:nixos/nixos-hardware";
+
+      nixos-generators.url = "github:nix-community/nixos-generators";
 
       balena-cli.url = "gitlab:doronbehar/nix-balena-cli";
-      balena-cli.inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  outputs = { self, nixpkgs, nix, home-manager, balena-cli, flake-compat, sops-nix }@inputs: let
-    mkSystem = name: system: extraConfig: nixpkgs.lib.nixosSystem (nixpkgs.lib.recursiveUpdate {
-      inherit system;
-      modules = [
-        (./machines + "/${name}/configuration.nix")
-        (./machines + "/${name}/hardware-configuration.nix")
-        self.nixosModules.base
-      ] ++ [ extraConfig ];
-    } {});
-  in {
-    nixosConfigurations = {
-      # Personal Dell XPS 13
-      neptune = mkSystem "neptune" "x86_64-linux" {};
-      # Work System76 Oryx Pro 6
-      jupiter = mkSystem "jupiter" "x86_64-linux" {};
+      balena-cli.inputs.nixpkgs.follows = "nixos";
     };
 
-    nixosModules = {
-      base = {
-        imports = [
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-          ({
-            home-manager = {
-              useUserPackages = true;
-              useGlobalPkgs = true;
-              extraSpecialArgs = { inherit inputs; };
-              users.kyle = import ./home;
-            };
-          })
-          ({
-            nixpkgs.overlays = [
-              balena-cli.overlay
-              # nix.overlay
+  outputs =
+    { self
+    , digga
+    , nixos
+    , home
+    , nixos-hardware
+    , nur
+    , agenix
+    , nvfetcher
+    , deploy
+    , nixpkgs
+    , balena-cli
+    , ...
+    } @ inputs:
+    digga.lib.mkFlake
+      {
+        inherit self inputs;
+
+        channelsConfig = { allowUnfree = true; };
+
+        channels = {
+          nixos = {
+            imports = [ (digga.lib.importOverlays ./overlays) ];
+            overlays = [ ];
+          };
+          nixpkgs-darwin-stable = {
+            imports = [ (digga.lib.importOverlays ./overlays) ];
+            overlays = [
+              # TODO: restructure overlays directory for per-channel overrides
+              # `importOverlays` will import everything under the path given
+              (channels: final: prev: {
+                inherit (channels.latest) mas;
+              } // prev.lib.optionalAttrs true { })
             ];
+          };
+          latest = { };
+        };
+
+        lib = import ./lib { lib = digga.lib // nixos.lib; };
+
+        sharedOverlays = [
+          (final: prev: {
+            __dontExport = true;
+            lib = prev.lib.extend (lfinal: lprev: {
+              our = self.lib;
+            });
           })
-          ({
-            nix.registry.nixpkgs.flake = nixpkgs;
-          })
-          # (import ./cachix.nix)
+
+          nur.overlay
+          agenix.overlay
+          nvfetcher.overlay
+          balena-cli.overlay
+
+          (import ./pkgs)
         ];
-      };
-    };
 
-  };
+        nixos = {
+          hostDefaults = {
+            system = "x86_64-linux";
+            channelName = "nixos";
+            imports = [ (digga.lib.importExportableModules ./modules) ];
+            modules = [
+              { lib.our = self.lib; }
+              digga.nixosModules.bootstrapIso
+              digga.nixosModules.nixConfig
+              home.nixosModules.home-manager
+              agenix.nixosModules.age
+            ];
+          };
 
+          imports = [ (digga.lib.importHosts ./hosts/nixos) ];
+          hosts = {
+            /* set host-specific properties here */
+            jupiter = { };
+            neptune = { };
+          };
+          importables = rec {
+            profiles = digga.lib.rakeLeaves ./profiles // {
+              users = digga.lib.rakeLeaves ./users;
+            };
+            suites = with profiles; rec {
+              base = [ core.nixos users.nixos users.root ];
+              workstation = [
+                core.nixos
+                develop.common
+                develop.docker
+                develop.zsh
+                graphical.brave
+                graphical.etcher
+                graphical.logseq
+                graphical.pantheon
+                graphical.signal-desktop
+                graphical.spotify
+                graphical.vlc
+                graphical.vscode
+                graphical.zoom-us
+                services.avahi
+                services.netdata
+                services.pipewire
+                services.openssh
+                # services.syncthing
+                services.tailscale
+                users.kyle
+                users.root
+              ];
+              balena-ws = workstation ++ [ balena ];
+            };
+          };
+        };
+
+        darwin = {
+          hostDefaults = {
+            system = "x86_64-darwin";
+            channelName = "nixpkgs-darwin-stable";
+            imports = [ (digga.lib.importExportableModules ./modules) ];
+            modules = [
+              { lib.our = self.lib; }
+              digga.darwinModules.nixConfig
+              home.darwinModules.home-manager
+              agenix.nixosModules.age
+            ];
+          };
+
+          imports = [ (digga.lib.importHosts ./hosts/darwin) ];
+          hosts = {
+            /* set host-specific properties here */
+            Mac = { };
+          };
+          importables = rec {
+            profiles = digga.lib.rakeLeaves ./profiles // {
+              users = digga.lib.rakeLeaves ./users;
+            };
+            suites = with profiles; rec {
+              base = [ core.darwin users.darwin ];
+            };
+          };
+        };
+
+        home = {
+          imports = [ (digga.lib.importExportableModules ./users/modules) ];
+          modules = [ ];
+          importables = rec {
+            profiles = digga.lib.rakeLeaves ./users/profiles;
+            suites = with profiles; rec {
+              base = [ direnv common ];
+              workstation = [ direnv common develop ];
+              balena-ws = workstation ++ [ balena ];
+            };
+          };
+          users = {
+            # TODO: does this naming convention still make sense with darwin support?
+            #
+            # - it doesn't make sense to make a 'nixos' user available on
+            #   darwin, and vice versa
+            #
+            # - the 'nixos' user might have special significance as the default
+            #   user for fresh systems
+            #
+            # - perhaps a system-agnostic home-manager user is more appropriate?
+            #   something like 'primaryuser'?
+            #
+            # all that said, these only exist within the `hmUsers` attrset, so
+            # it could just be left to the developer to determine what's
+            # appropriate. after all, configuring these hm users is one of the
+            # first steps in customizing the template.
+            nixos = { suites, ... }: { imports = suites.base; };
+            # darwin = { suites, ... }: { imports = suites.base; };
+            kyle = { suites, ... }: { imports = suites.balena-ws; };
+          }; # digga.lib.importers.rakeLeaves ./users/hm;
+        };
+
+        devshell = ./shell;
+
+        # TODO: similar to the above note: does it make sense to make all of
+        # these users available on all systems?
+        homeConfigurations = digga.lib.mergeAny
+          (digga.lib.mkHomeConfigurations self.darwinConfigurations)
+          (digga.lib.mkHomeConfigurations self.nixosConfigurations)
+        ;
+
+        deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
+
+      }
+  ;
 }
