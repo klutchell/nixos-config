@@ -69,4 +69,7 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
+
+  # TODO: consider enabling opengl as per
+  # https://github.com/NixOS/nixos-hardware/blob/master/common/gpu/nvidia.nix
 }

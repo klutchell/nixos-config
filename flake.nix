@@ -124,7 +124,14 @@
           hosts = {
             /* set host-specific properties here */
             jupiter = { };
-            neptune = { };
+            neptune = {
+              modules = [
+                # ...
+                # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+                # https://github.com/NixOS/nixos-hardware/blob/master/dell/xps/13-9350/default.nix
+                nixos-hardware.nixosModules.dell-xps-13-9350
+              ];
+            };
           };
           importables = rec {
             profiles = digga.lib.rakeLeaves ./profiles // {
