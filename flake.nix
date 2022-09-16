@@ -123,7 +123,16 @@
           imports = [ (digga.lib.importHosts ./hosts/nixos) ];
           hosts = {
             /* set host-specific properties here */
-            jupiter = { };
+            jupiter = { 
+              modules = [
+                # ...
+                # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+                # https://github.com/NixOS/nixos-hardware/blob/master/dell/xps/13-9350/default.nix
+                nixos-hardware.nixosModules.common-cpu-intel
+                nixos-hardware.nixosModules.common-pc-laptop
+                nixos-hardware.nixosModules.common-pc-laptop-ssd
+              ];
+            };
             neptune = {
               modules = [
                 # ...

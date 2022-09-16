@@ -45,8 +45,7 @@
   # networking.interfaces.enp40s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   # https://nixos.wiki/wiki/Nvidia
   # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/hardware/video/nvidia.nix
