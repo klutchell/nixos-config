@@ -45,7 +45,7 @@
   # networking.interfaces.enp57s0u1u2.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp58s0.useDHCP = lib.mkDefault true;
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
