@@ -80,4 +80,7 @@
 
   # https://search.nixos.org/options?channel=22.05&from=0&size=50&sort=relevance&type=packages&query=programs.gnupg
   programs.gnupg.agent.enable = true;
+
+  # https://nixos.wiki/wiki/Bluetooth
+  hardware.enableAllFirmware = true;
 }
