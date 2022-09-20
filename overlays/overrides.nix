@@ -14,6 +14,7 @@ channels: final: prev: {
     signal-desktop
     starship
     deploy-rs
+    logseq
     ;
 
   haskellPackages = prev.haskellPackages.override
