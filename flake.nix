@@ -162,12 +162,12 @@
                 graphical.vlc
                 graphical.vscode
                 graphical.zoom-us
-                services.avahi
+                networking.avahi
                 services.netdata
-                services.pipewire
+                sound.pipewire
                 services.openssh
                 # services.syncthing
-                services.tailscale
+                networking.tailscale
                 users.kyle
                 users.root
               ];
