@@ -49,4 +49,7 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
+
+  # disable TLP as the default settings severely impacts performance
+  services.tlp.enable = false;
 }
