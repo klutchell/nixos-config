@@ -26,7 +26,6 @@
         # nix
         nrb = ifSudo "sudo nixos-rebuild";
         nrbs = ifSudo "sudo nixos-rebuild switch";
-        update = ifSudo "sudo nixos-rebuild switch";
 
         # fix nixos-option for flake compat
         nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
