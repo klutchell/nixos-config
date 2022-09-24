@@ -163,7 +163,7 @@
                 graphical.vscode
                 graphical.zoom-us
                 networking.avahi
-                services.netdata
+                # services.netdata
                 sound.pipewire
                 services.openssh
                 # services.syncthing
