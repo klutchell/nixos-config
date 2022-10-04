@@ -153,6 +153,7 @@
                 develop.common
                 develop.docker
                 develop.zsh
+                graphical.bitwarden
                 graphical.brave
                 graphical.etcher
                 graphical.logseq
