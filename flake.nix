@@ -233,7 +233,7 @@
             # appropriate. after all, configuring these hm users is one of the
             # first steps in customizing the template.
             nixos = { suites, ... }: { imports = suites.base; };
-            # darwin = { suites, ... }: { imports = suites.base; };
+            darwin = { suites, ... }: { imports = suites.base; };
             kyle = { suites, ... }: { imports = suites.balena-ws; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };

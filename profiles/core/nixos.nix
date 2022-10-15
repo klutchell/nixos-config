@@ -69,6 +69,7 @@
   services.openssh = {
     enable = true;
     openFirewall = lib.mkDefault false;
+    passwordAuthentication = lib.mkDefault false;
   };
 
   # Service that makes Out of Memory Killer more effective

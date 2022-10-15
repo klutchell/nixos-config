@@ -1,4 +1,4 @@
-{ hmUsers, self, config, ... }:
+{ hmUsers, self, config, pkgs, ... }:
 {
   age.secrets.passwordfile-kyle = {
     file = "${self}/secrets/passwordfile-kyle.age";
@@ -24,6 +24,13 @@
       "syncthing"
     ];
   };
+
+  users.users.kyle.openssh.authorizedKeys.keyFiles = [
+    (pkgs.fetchurl {
+      url = "https://github.com/klutchell.keys";
+      sha256 = "sha256-YfE38Ip56c52m6llZRUO/6a+SKcqSa7eKwIzp7hK+Dg=";
+    })
+  ];
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
