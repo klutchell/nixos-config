@@ -28,7 +28,7 @@
   users.users.kyle.openssh.authorizedKeys.keyFiles = [
     (pkgs.fetchurl {
       url = "https://github.com/klutchell.keys";
-      sha256 = "sha256-YfE38Ip56c52m6llZRUO/6a+SKcqSa7eKwIzp7hK+Dg=";
+      sha256 = "sha256-lPUFhm8cpFqD4QZUoCridf7BDsGwGZI69GTgzAyoV9c=";
     })
   ];
 
