@@ -123,7 +123,7 @@
           imports = [ (digga.lib.importHosts ./hosts/nixos) ];
           hosts = {
             /* set host-specific properties here */
-            jupiter = { 
+            jupiter = {
               modules = [
                 # ...
                 # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
@@ -158,6 +158,7 @@
                 graphical.etcher
                 graphical.logseq
                 graphical.pantheon
+                graphical.rclone
                 graphical.signal-desktop
                 graphical.spotify
                 graphical.vlc
