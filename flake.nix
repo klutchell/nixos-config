@@ -155,6 +155,7 @@
                 develop.zsh
                 graphical.bitwarden
                 graphical.brave
+                graphical.cryptomator
                 graphical.etcher
                 graphical.logseq
                 graphical.pantheon
