@@ -50,6 +50,8 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
-  # disable TLP as the default settings severely impacts performance
-  # services.tlp.enable = false;
+  # udev 250 doesn't reliably reinitialize devices after restart
+  # https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.systemd-udevd.restartIfChanged = false;
+  systemd.network.wait-online.anyInterface = true;
 }
